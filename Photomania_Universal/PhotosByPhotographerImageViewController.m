@@ -11,6 +11,7 @@
 
 // вставляемый PhotosByPhotographerMapViewController
 @property (nonatomic, strong) PhotosByPhotographerMapViewController *mapvc;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
@@ -53,6 +54,13 @@
         // нет вставки, позволим нашему superclass выполнить любые segues,
         // какие он может
         [super prepareForSegue:segue sender:sender];
+    }
+}
+- (IBAction)hide:(UIBarButtonItem *)sender {
+    if (!self.containerView.hidden) {
+        self.containerView.hidden = YES;
+    } else {
+        self.containerView.hidden = NO;
     }
 }
 

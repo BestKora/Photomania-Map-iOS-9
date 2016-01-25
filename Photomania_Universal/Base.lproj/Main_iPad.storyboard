@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Split View Controller-->
@@ -52,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dOZ-iH-wwz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1091" y="242"/>
+            <point key="canvasLocation" x="677" y="376"/>
         </scene>
         <!--Photos By Photographer Image View Controller-->
         <scene sceneID="i4o-tq-SuA">
@@ -98,22 +99,30 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="7WW-rX-Tq4">
-                        <barButtonItem key="rightBarButtonItem" title="URL" id="K9q-3q-sN1">
-                            <connections>
-                                <segue destination="Q0t-JB-8Lk" kind="popoverPresentation" identifier="Show URL" popoverAnchorBarButtonItem="K9q-3q-sN1" id="GcR-qt-gcD">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="URL" id="K9q-3q-sN1">
+                                <connections>
+                                    <segue destination="Q0t-JB-8Lk" kind="popoverPresentation" identifier="Show URL" popoverAnchorBarButtonItem="K9q-3q-sN1" id="GcR-qt-gcD">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Hide Map" id="QGL-Ng-S4W">
+                                <connections>
+                                    <action selector="hide:" destination="pnO-Ek-rkZ" id="NFT-A2-qxK"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="containerView" destination="Ht1-MJ-TjG" id="4bV-qK-Lpp"/>
                         <outlet property="scrollView" destination="OtP-lw-cTW" id="xp4-ew-RC9"/>
                         <outlet property="spinner" destination="duz-Zg-7ci" id="m9w-tE-90C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ktC-k4-phv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="289" y="221"/>
+            <point key="canvasLocation" x="-37" y="185"/>
         </scene>
         <!--Photographers-->
         <scene sceneID="mel-za-ocA">
@@ -131,7 +140,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4K-ed-WQI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-627" y="-534"/>
+            <point key="canvasLocation" x="-697" y="-534"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sU2-sO-frJ">
@@ -149,7 +158,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zHV-nV-aRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-627" y="221"/>
+            <point key="canvasLocation" x="-697" y="185"/>
         </scene>
         <!--PhotographersCDTVC-->
         <scene sceneID="iAq-8G-Le8">
@@ -194,7 +203,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9tx-ZD-xqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="289" y="-534"/>
+            <point key="canvasLocation" x="-37" y="-534"/>
         </scene>
         <!--Photos By Photographer Map View Controller-->
         <scene sceneID="fdB-jm-Jj5">
@@ -227,7 +236,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z7f-Jc-bkC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="991" y="25"/>
+            <point key="canvasLocation" x="569" y="19"/>
         </scene>
     </scenes>
 </document>
