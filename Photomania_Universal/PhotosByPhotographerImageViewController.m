@@ -59,8 +59,10 @@
 - (IBAction)hide:(UIBarButtonItem *)sender {
     if (!self.containerView.hidden) {
         self.containerView.hidden = YES;
+        sender.title = @"ShowMap";
     } else {
         self.containerView.hidden = NO;
+        sender.title = @"HideMap";
     }
 }
 

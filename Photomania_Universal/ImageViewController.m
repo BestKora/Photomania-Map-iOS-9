@@ -108,9 +108,7 @@
             UIPopoverPresentationController *ppc =
             urlvc.popoverPresentationController;
             ppc.delegate = self;
-            
         }
-
     }
 }
 

@@ -107,7 +107,7 @@
                                     </segue>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Hide Map" id="QGL-Ng-S4W">
+                            <barButtonItem title="HideMap" id="QGL-Ng-S4W">
                                 <connections>
                                     <action selector="hide:" destination="pnO-Ek-rkZ" id="NFT-A2-qxK"/>
                                 </connections>
