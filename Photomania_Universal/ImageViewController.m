@@ -29,6 +29,10 @@
     [self.scrollView addSubview:self.imageView];
     self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     self.navigationItem.leftItemsSupplementBackButton = YES;
+    if (self.imageURL)
+    {
+        [self.spinner startAnimating];
+    }
 
 }
 
@@ -138,8 +142,6 @@
 
     if (self.imageURL)
     {
-        [self.spinner startAnimating];
-
         NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
         
         // another configuration option is backgroundSessionConfiguration (multitasking API required though)
