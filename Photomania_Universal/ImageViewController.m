@@ -21,7 +21,7 @@
 
 #pragma mark - View Controller Lifecycle
 
-// add the UIImageView to the MVC's View
+//  добавляем UIImageView к MVC's View
 
 - (void)viewDidLoad
 {
@@ -40,7 +40,7 @@
 
 #pragma mark - Properties
 
-// lazy instantiation
+// lazy instantiation (отложенное получение экземпляра класса)
 
 - (UIImageView *)imageView
 {
@@ -48,9 +48,10 @@
     return _imageView;
 }
 
-// image property does not use an _image instance variable
-// instead it just reports/sets the image in the imageView property
-// thus we don't need @synthesize even though we implement both setter and getter
+// свойство image не использует переменную экземпляра класса _image,
+// вместо этого она просто получает/устанавливает image в свойстве imageView
+// поэтому нет необходимости в @synthesize
+// даже когда реализуют оба: и setter, и getter
 
 - (UIImage *)image
 {
@@ -59,13 +60,15 @@
 
 - (void)setImage:(UIImage *)image
 {
-    self.imageView.image = image; // does not change the frame of the UIImageView
+    self.imageView.image = image; //не изменяет frame UIImageView
 
-    // had to add these two lines in Shutterbug to fix a bug in "reusing" ImageViewController's MVC
+    // нужно добавить две строки кода в Shutterbug для исправления ошибки
+    // при повторном использовании ("reusing") ImageViewController's MVC
     self.scrollView.zoomScale = 1.0;
     self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     
-    // self.scrollView could be nil on the next line if outlet-setting has not happened yet
+    // self.scrollView будет равен nil на следующей строке кода,
+    // если установка outlet еще не произошла
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
 
     // в портретной ориентации на iPad в split view,
@@ -82,19 +85,20 @@
 {
     _scrollView = scrollView;
     
-    // next three lines are necessary for zooming
+    // следующие три строки необходимы для изменения масштаба (zooming)
     _scrollView.minimumZoomScale = 0.2;
     _scrollView.maximumZoomScale = 2.0;
     _scrollView.delegate = self;
 
-    // next line is necessary in case self.image gets set before self.scrollView does
-    // for example, prepareForSegue:sender: is called before outlet-setting phase
+    // следующая строка необходима в случае, если self.image устанавливается
+    // перед установкой self.scrollView, например, вызывается
+    // prepareForSegue:sender: перед фазой установки outlets
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
 }
 
 #pragma mark - UIScrollViewDelegate
 
-// mandatory zooming method in UIScrollViewDelegate protocol
+// обязательный zooming метод в UIScrollViewDelegate protocol
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
@@ -139,28 +143,24 @@
     {
         [self.spinner startAnimating];
         NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
-        
-        // another configuration option is backgroundSessionConfiguration (multitasking API required though)
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        
-        // create the session without specifying a queue to run completion handler on (thus, not main queue)
-        // we also don't specify a delegate (since completion handler is all we need)
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
 
         NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
             completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
-                // this handler is not executing on the main queue, so we can't do UI directly here
+                // этот обработчик не исполняется на main queue,
+                // так что мы не можем изменять UI здесь напрямую
                 if (!error) {
                     if ([request.URL isEqual:self.imageURL]) {
-                        // UIImage is an exception to the "can't do UI here"
+                        //  UIImage является исключением к тому, что "нельзя здесь изменять UI"
                         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:localfile]];
-                        // but calling "self.image =" is definitely not an exception to that!
-                        // so we must dispatch this back to the main queue
+                        // но вызов "self.image =" определенно не является этим исключением!
+                        // так что мы должны вернуться назад в main queue
                         dispatch_async(dispatch_get_main_queue(), ^{ self.image = image; });
                     }
                 }
         }];
-        [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+        [task resume]; // не забывайте, что все задания NSURLSession стартуют как suspended!
     }
 }
 
