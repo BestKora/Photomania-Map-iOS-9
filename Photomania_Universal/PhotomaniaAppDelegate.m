@@ -51,6 +51,19 @@
         
         // показываем storyboard
         self.window.rootViewController = [storyboard instantiateInitialViewController];
+        if ([self.window.rootViewController isKindOfClass:[UISplitViewController class]]) {
+            UISplitViewController *splitViewController =
+            (UISplitViewController *)self.window.rootViewController;
+            //-----------------Detail------------------------------
+            UINavigationController *navigationController =
+            [splitViewController.viewControllers lastObject];
+            navigationController.topViewController.navigationItem.leftBarButtonItem =
+            splitViewController.displayModeButtonItem;
+            navigationController.topViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            
+            //        splitViewController.preferredDisplayMode =  UISplitViewControllerDisplayModeAllVisible;
+        }
+
         [self.window makeKeyAndVisible];
     }
 

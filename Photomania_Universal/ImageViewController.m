@@ -9,7 +9,7 @@
 #import "ImageViewController.h"
 #import "URLViewController.h"
 
-@interface ImageViewController () <UIScrollViewDelegate,  UIPopoverPresentationControllerDelegate>
+@interface ImageViewController () <UIScrollViewDelegate>
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *image;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -27,13 +27,15 @@
 {
     [super viewDidLoad];
     [self.scrollView addSubview:self.imageView];
-    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-    if (self.imageURL)
-    {
-        [self.spinner startAnimating];
-    }
+}
 
+// для эффективности мы будем действительно загружать image с Flickr.com
+// только тогда, когда мы уже собираемся выйти на экран
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.image == nil) {
+        [self startDownloadingImage];
+    }
 }
 
 #pragma mark - Properties
@@ -108,11 +110,6 @@
     if ([segue.destinationViewController isKindOfClass:[URLViewController class]]) {
         URLViewController *urlvc = (URLViewController *)segue.destinationViewController;
             urlvc.url = self.imageURL;
-        if (urlvc.popoverPresentationController) {
-            UIPopoverPresentationController *ppc =
-            urlvc.popoverPresentationController;
-            ppc.delegate = self;
-        }
     }
 }
 
@@ -132,16 +129,15 @@
 - (void)setImageURL:(NSURL *)imageURL
 {
     _imageURL = imageURL;
-    //    self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.imageURL]]; // blocks main queue!
     [self startDownloadingImage];
 }
 
 - (void)startDownloadingImage
 {
     self.image = nil;
-
     if (self.imageURL)
     {
+        [self.spinner startAnimating];
         NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
         
         // another configuration option is backgroundSessionConfiguration (multitasking API required though)
@@ -168,11 +164,5 @@
     }
 }
 
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:
-(UIPresentationController *)controller
-                                                               traitCollection:(UITraitCollection *)traitCollection
-{
-    return UIModalPresentationNone;
-}
 
 @end
